@@ -18,4 +18,5 @@ public class ExampleController {
         ExampleVO vo = new ExampleVO(10, "ten");
         return vo;
     }
+    
 }
