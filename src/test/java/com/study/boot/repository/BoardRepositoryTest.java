@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,7 +44,7 @@ class BoardRepositoryTest {
         }
         
         Board findBoard = resultOpt.get();
-        
+
         assertThat(findBoard).isNotNull();
         assertThat(findBoard.getBno()).isEqualTo(board.getBno());
         assertThat(findBoard.getTitle()).isEqualTo(board.getTitle());
