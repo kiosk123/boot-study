@@ -15,6 +15,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"> <!-- 레이아웃 라�
         <link rel="stylesheet" th:href="@{/css/normalize.css}">
         <link rel="stylesheet" th:href="@{/css/main.css}">
         <script th:src="@{/js/vendor/modernizr-2.8.3.min.js}"></script>
+        
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script>window.jQuery || document.write('<script th:src="@{/js/vendor/jquery-1.12.0.min.js}"><\/script>')</script>
+        <script th:src="@{/js/plugins.js}"></script>
+        <script th:src="@{/js/main.js}"></script>
+
+		<!-- boot strap -->
+		<link rel="stylesheet" th:href="@{/bootstrap-4.5.3/css/bootstrap.min.css}">
+        <script th:src="@{/bootstrap-4.5.3/js/bootstrap.min.js}"></script>
+        <script th:src="@{/bootstrap-4.5.3/js/bootstrap.bundle.min.js}"></script>
+        
     </head>
     <body>
         
@@ -24,11 +35,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"> <!-- 레이아웃 라�
         </div>
         
         
-        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-        <script>window.jQuery || document.write('<script th:src="@{/js/vendor/jquery-1.12.0.min.js}"><\/script>')</script>
-        <script th:src="@{/js/plugins.js}"></script>
-        <script th:src="@{/js/main.js}"></script>
-
 		<!-- custom javascript 매번 변경되는 자바스크립트 코드 처리 영역 -->
 		<th:block layout:fragment="script"></th:block>
 
