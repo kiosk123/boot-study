@@ -18,9 +18,4 @@ public class ExampleController {
         ExampleVO vo = new ExampleVO(10, "ten");
         return vo;
     }
-    
-    @GetMapping("/layout")
-    public String layout() {
-        return "layout/hello";
-    }
 }
