@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- 자바스크립트에서 타임리프 요청값 참조 -->
+<script th:inline="javascript">
+var hello = /*[[${welcome}]]*/"";
+console.log(hello);
+</script>
+
+<link th:rel="@{/css/gtvg.css}"> <!-- 링크 처리 -->
+<title>Welcome Home</title>
+</head>
+
+<body>
+</body>
+</html>

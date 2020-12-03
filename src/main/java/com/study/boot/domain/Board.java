@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.study.boot.domain.base.BaseModifierEntity;
 import com.study.boot.domain.base.BaseTimeEntity;
 
 import lombok.AccessLevel;

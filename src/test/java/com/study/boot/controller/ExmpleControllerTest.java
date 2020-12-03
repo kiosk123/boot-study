@@ -16,6 +16,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.study.boot.controller.sample.ExampleController;
+
 
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
