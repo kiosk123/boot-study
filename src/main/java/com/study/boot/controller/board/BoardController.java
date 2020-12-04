@@ -17,8 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
     
     @GetMapping
-    public String list(PageVO pageVO) {
-        Pageable pageable = pageVO.makePageable(0, "bno");
+    public String list(@PageableDefault(direction = Direction.DESC,
+                                        sort = "bno",
+                                        page = 0)Pageable pageable) {
         return "boards/list";
     }
 }
