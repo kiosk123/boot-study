@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.study.boot.vo.PageVO;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -15,11 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
     
     @GetMapping
-    public String list(@PageableDefault(direction = Direction.DESC,
-                                        sort = "bno",
-                                        size = 20,
-                                        page = 0)Pageable pageable) {
-        log.debug("called list()");
+    public String list(PageVO pageVO) {
+        Pageable pageable = pageVO.makePageable(0, "bno");
         return "boards/list";
     }
 }
