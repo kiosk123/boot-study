@@ -4,7 +4,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.query.JpaCountQueryCreator;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
+import com.google.common.base.Objects;
 import com.querydsl.core.BooleanBuilder;
 import com.study.boot.domain.Board;
 import com.study.boot.repository.querydsl.base.Querydsl4Repository;
@@ -27,7 +30,8 @@ public class BoardQueryRepository extends Querydsl4Repository {
     
     private BooleanBuilder searchCondtion(String type, String keyword) {
         BooleanBuilder builder = new BooleanBuilder();
-        switch (type.toLowerCase()) {
+        type = StringUtils.hasText(type) ? type.trim().toLowerCase() : "";
+        switch (type) {
         case "t":
             builder.and(board.title.lower().like("%" + keyword.toLowerCase() + "%"));
             break;
