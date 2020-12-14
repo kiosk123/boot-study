@@ -24,9 +24,7 @@ public class BoardController {
     
     @GetMapping
     public String list(PageVO page, Model model) {
-        
-        //FIXME 검색 조건은 현재 없으므로 일단 null 처리
-        Page<Board> result = boardService.searchBoards(null, null, page.makePageable(0, "bno"));
+        Page<Board> result = boardService.searchBoards(page.getType(), page.getKeyword(), page.makePageable(0, "bno"));
         
         model.addAttribute("result", new PageMaker<>(result));
 

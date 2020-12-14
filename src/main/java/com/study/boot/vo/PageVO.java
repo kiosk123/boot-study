@@ -4,6 +4,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Paging 처리 값 세팅을 위한 VO
  * @author USER
@@ -14,16 +17,19 @@ public class PageVO {
     private static final int DEFAULT_SIZE = 10;
     private static final int DEFAULT_MAX_SIZE = 50;
     
+    @Getter
     private int page;
     private int size;
+    
+    @Setter @Getter
+    private String keyword;
+    
+    @Setter @Getter
+    private String type;
     
     public PageVO() {
         this.page = 1;
         this.size = DEFAULT_SIZE;
-    }
-    
-    public int getPage() {
-        return page;
     }
     
     public void setPage(int page) {
