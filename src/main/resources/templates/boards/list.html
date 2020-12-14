@@ -18,7 +18,16 @@
 		<nav>
 			<div>
 				<ul class="pagination">
-					<li th:each="p:${result.pageList}"><a href="#">[[${p.pageNumber}]]</a></li>
+					<li class="page-item" th:if="${result.prevPage}">
+						<a th:href="${result.prevPage.pageNumber + 1}">PREV [[${result.prevPage.pageNumber + 1}]]</a>
+					</li>
+					<li th:each="p:${result.pageList}" 
+						th:class="${p.pageNumber eq result.currentPageNum - 1 ? 'active' : ''}">
+						<a th:href="${p.pageNumber + 1}">[[${p.pageNumber + 1}]]</a>
+					</li>
+					<li class="page-item" th:if="${result.nextPage}">
+						<a th:href="${result.nextPage.pageNumber + 1}">NEXT [[${result.nextPage.pageNumber + 1}]]</a>
+					</li>
 				</ul>
 			</div>
 		</nav>
