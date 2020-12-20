@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.study.boot.domain.Board;
+import com.study.boot.dto.BoardDTO;
 import com.study.boot.repository.BoardRepository;
 import com.study.boot.repository.querydsl.BoardQueryRepository;
 
@@ -19,7 +20,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardQueryRepository boardQueryRepository;
     
-    public Page<Board> searchBoards(String type, String keyword, Pageable pageable) { 
-        return boardQueryRepository.searchBoards(type, keyword, pageable);
+    public Page<BoardDTO> searchBoards(String type, String keyword, Pageable pageable) { 
+        Page<Board> result = boardQueryRepository.searchBoards(type, keyword, pageable);
+        return result.map(board -> new BoardDTO(board.getTitle(), board.getWriter(), board.getContent()));
     }
 }

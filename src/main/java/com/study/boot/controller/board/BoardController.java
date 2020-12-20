@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.study.boot.domain.Board;
+import com.study.boot.dto.BoardDTO;
 import com.study.boot.service.BoardService;
 import com.study.boot.vo.PageMaker;
 import com.study.boot.vo.PageVO;
@@ -25,7 +26,7 @@ public class BoardController {
     
     @GetMapping
     public String list(PageVO page, Model model) {
-        Page<Board> result = boardService.searchBoards(page.getType(), page.getKeyword(), page.makePageable(0, "bno"));
+        Page<BoardDTO> result = boardService.searchBoards(page.getType(), page.getKeyword(), page.makePageable(0, "bno"));
         model.addAttribute("result", new PageMaker<>(result));
         model.addAttribute("pageVO", page);
 
