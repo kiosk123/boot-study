@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,8 +26,8 @@ public class BoardController {
     @GetMapping
     public String list(PageVO page, Model model) {
         Page<Board> result = boardService.searchBoards(page.getType(), page.getKeyword(), page.makePageable(0, "bno"));
-        
         model.addAttribute("result", new PageMaker<>(result));
+        model.addAttribute("pageVO", page);
 
         return "boards/list";
     }
