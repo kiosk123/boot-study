@@ -24,4 +24,9 @@ public class BoardService {
         Page<Board> result = boardQueryRepository.searchBoards(type, keyword, pageable);
         return result.map(board -> new BoardDTO(board.getTitle(), board.getWriter(), board.getContent()));
     }
+    
+    public void save(BoardDTO boardDTO) {
+        //TODO 저장 처리
+//        boardRepository.save(entity);
+    }
 }
