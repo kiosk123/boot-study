@@ -1,6 +1,6 @@
 package com.study.boot.controller.board;
 
-import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.study.boot.dto.BoardDTO;
@@ -33,22 +34,13 @@ public class BoardController {
         return "boards/list";
     }
     
-    @GetMapping("/board")
-    public String getBoardForm(Long bno, Model model) {
-        log.debug("get board form");
-        
-        if (Objects.isNull(bno)) {
-            model.addAttribute("method", "POST");
-            return "/boards/register";
-        }
-        else {
-            // 수정시 게시물 처리...
-            model.addAttribute("method", "PUT");
-            return "/boards/modify";
-        }
+    @GetMapping("/register")
+    public String getRegisterForm(Model model) {
+        model.addAttribute("method", "POST");
+        return "/boards/register";
     }
     
-    @PostMapping("/board")
+    @PostMapping("/register")
     public String register(BoardDTO boardDTO, RedirectAttributes rattr) {
         log.debug("create new board by post method");
         log.debug(boardDTO.toString());
@@ -56,5 +48,19 @@ public class BoardController {
         boardService.save(boardDTO);
         rattr.addFlashAttribute("msg", "success");
         return "redirect:/boards";
+    }
+    
+    @GetMapping("/view")
+    public String viewBoard(@RequestParam("bno")Long bno, PageVO page, Model model) {
+        Optional<BoardDTO> opt = boardService.findByBno(bno);
+        if (opt.isPresent()) {
+            BoardDTO boardDTO = opt.get();
+            model.addAttribute("vo", boardDTO);
+            model.addAttribute("pageVO", page);
+            return "/boards/view";
+        } 
+        else {
+            return "redirect:/boards";
+        }
     }
 }

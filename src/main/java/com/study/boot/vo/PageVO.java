@@ -19,6 +19,8 @@ public class PageVO {
     
     @Getter
     private int page;
+    
+    @Getter
     private int size;
     
     @Setter @Getter
