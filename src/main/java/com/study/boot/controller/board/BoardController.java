@@ -81,10 +81,22 @@ public class BoardController {
     }
     
     @PostMapping("/modify")
-    public String modify(Model model) {
-        log.debug("modify board using put method");
-//        log.debug("modify boarDTO content : " + boardDTO.getContent());
-//        log.debug("page size : " + pageVO.getSize());
+    public String modify(BoardDTO boardDTO, PageVO page, RedirectAttributes rattr) {
+        Long updateCnt = boardService.updateBoard(boardDTO);
+        rattr.addFlashAttribute("pageVO", page);
+        if (updateCnt > 0) {
+            rattr.addAttribute("bno", boardDTO.getBno());
+            return "redirect:/board/view";
+        }
+        else {
+            return "redirect:/board/list";
+        }
+    }
+    
+    @PostMapping("/delete")
+    public String delete(BoardDTO boardDTO, PageVO page, RedirectAttributes rattr) {
+        Long deleteCnt = boardService.deleteBoard(boardDTO.getBno());
+        rattr.addFlashAttribute("pageVO", page);
         return "redirect:/board/list";
     }
 }

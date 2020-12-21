@@ -39,8 +39,17 @@ public class BoardService {
     }
     
     @Transactional
-    public void updateBoard(BoardDTO boardDTO) {
-        //findByBno(boardDTO.getBno())
+    public Long updateBoard(BoardDTO boardDTO) {
+        Optional<Board> opt = boardRepository.findById(boardDTO.getBno());
+        if (opt.isPresent()) {
+            Board board = opt.get();
+            board.setTitle(boardDTO.getTitle());
+            board.setContent(boardDTO.getContent());
+            return 1L;
+        }
+        else {
+            return 0L;
+        }
     }
     
     public Optional<BoardDTO> findByBno(Long bno) {
@@ -57,6 +66,19 @@ public class BoardService {
         }
         else {
             return Optional.empty();
+        }
+    }
+
+    @Transactional
+    public Long deleteBoard(Long bno) {
+        Optional<Board> opt = boardRepository.findById(bno);
+        if (opt.isPresent()) {
+            Board board = opt.get();
+            boardRepository.delete(board);
+            return 1L;
+        }
+        else {
+            return 0L;
         }
     }
 }

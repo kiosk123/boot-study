@@ -73,7 +73,7 @@
 		$(".delbtn").click(function(e){
 			e.preventDefault();
 			formObj.attr("action",/*[[@{/board/delete}]]*/"");
-			formObj.attr("method", "delete");
+			formObj.attr("method", "post");
 			
 			formObj.submit();
 			

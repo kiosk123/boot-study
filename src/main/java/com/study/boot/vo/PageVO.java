@@ -35,7 +35,7 @@ public class PageVO {
     }
     
     public void setPage(int page) {
-        this.page = page < 0 ? 1 : page;
+        this.page = page <= 0 ? 1 : page;
     }
     
     public void setSize(int size) {
