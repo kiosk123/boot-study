@@ -22,11 +22,17 @@ public class BoardService {
     
     public Page<BoardDTO> searchBoards(String type, String keyword, Pageable pageable) { 
         Page<Board> result = boardQueryRepository.searchBoards(type, keyword, pageable);
-        return result.map(board -> new BoardDTO(board.getBno(), board.getTitle(), board.getWriter(), board.getContent()));
+        return result.map(board -> new BoardDTO(board.getBno(), 
+                                                board.getTitle(), 
+                                                board.getWriter(), 
+                                                board.getContent(), 
+                                                board.getCreatedDate(), 
+                                                board.getUpdatedDate()));
     }
     
+    @Transactional
     public void save(BoardDTO boardDTO) {
-        //TODO 저장 처리
-//        boardRepository.save(entity);
+        Board board = new Board(boardDTO.getTitle(), boardDTO.getWriter(), boardDTO.getContent());
+        boardRepository.save(board);
     }
 }

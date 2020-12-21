@@ -1,5 +1,7 @@
 package com.study.boot.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,4 +15,6 @@ public class BoardDTO {
     private String title;
     private String writer;
     private String content;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
 }
