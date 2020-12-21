@@ -6,7 +6,7 @@
 
 	<div class="panel-heading">List Page</div>
 	<div class="panel-body pull-right">
-		<h3><a class="label label-default" th:href="@{/register}">Register</a></h3>
+		<h3><a class="label label-default" th:href="@{/board/register}">Register</a></h3>
 	</div>
 	<div class="panel-body">
 		<div>
@@ -61,7 +61,7 @@
 		</nav>
 		<!-- paging end -->
 		
-		<form id="f1" th:action="@{/boards}" method="get">
+		<form id="f1" th:action="@{/board/list}" method="get">
 			<input type="hidden" name="page" th:value="${result.currentPageNum}">
 			<input type="hidden" name="size" th:value="${result.currentPage.pageSize}">
 			<input type="hidden" name="type" th:value="${pageVO.type}">
@@ -109,7 +109,7 @@
 			
 			const boardNo = $(this).attr("href");
 			
-			formObj.attr("action", /*[[@{/view}]]*/"");
+			formObj.attr("action", /*[[@{/board/view}]]*/"");
 			formObj.append(`<input type='hidden' name='bno' value='${boardNo}'>`);
 			formObj.submit();
 		});

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -18,6 +20,7 @@ import com.study.boot.vo.PageVO;
 
 import lombok.extern.slf4j.Slf4j;
 
+@RequestMapping("/board")
 @Controller
 @Slf4j
 public class BoardController {
@@ -25,7 +28,7 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
     
-    @GetMapping("/boards")
+    @GetMapping("/list")
     public String list(PageVO page, Model model) {
         Page<BoardDTO> result = boardService.searchBoards(page.getType(), page.getKeyword(), page.makePageable(0, "bno"));
         model.addAttribute("result", new PageMaker<>(result));
@@ -36,7 +39,6 @@ public class BoardController {
     
     @GetMapping("/register")
     public String getRegisterForm(Model model) {
-        model.addAttribute("method", "POST");
         return "/boards/register";
     }
     
@@ -47,11 +49,11 @@ public class BoardController {
         
         boardService.save(boardDTO);
         rattr.addFlashAttribute("msg", "success");
-        return "redirect:/boards";
+        return "redirect:/board/list";
     }
     
     @GetMapping("/view")
-    public String viewBoard(@RequestParam("bno")Long bno, PageVO page, Model model) {
+    public String getViewBoard(@RequestParam("bno")Long bno, PageVO page, Model model) {
         Optional<BoardDTO> opt = boardService.findByBno(bno);
         if (opt.isPresent()) {
             BoardDTO boardDTO = opt.get();
@@ -60,7 +62,29 @@ public class BoardController {
             return "/boards/view";
         } 
         else {
-            return "redirect:/boards";
+            return "redirect:/board/list";
         }
+    }
+    
+    @GetMapping("/modify")
+    public String getModifyForm(@RequestParam("bno")Long bno, PageVO page, Model model) {
+        Optional<BoardDTO> opt = boardService.findByBno(bno);
+        if (opt.isPresent()) {
+            BoardDTO boardDTO = opt.get();
+            model.addAttribute("vo", boardDTO);
+            model.addAttribute("pageVO", page);
+            return "/boards/modify";
+        } 
+        else {
+            return "redirect:/board/list";
+        }
+    }
+    
+    @PostMapping("/modify")
+    public String modify(Model model) {
+        log.debug("modify board using put method");
+//        log.debug("modify boarDTO content : " + boardDTO.getContent());
+//        log.debug("page size : " + pageVO.getSize());
+        return "redirect:/board/list";
     }
 }

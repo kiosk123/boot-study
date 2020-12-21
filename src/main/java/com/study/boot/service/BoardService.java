@@ -38,6 +38,11 @@ public class BoardService {
         boardRepository.save(board);
     }
     
+    @Transactional
+    public void updateBoard(BoardDTO boardDTO) {
+        //findByBno(boardDTO.getBno())
+    }
+    
     public Optional<BoardDTO> findByBno(Long bno) {
         Optional<Board> opt = boardRepository.findById(bno);
         if (opt.isPresent()) {
