@@ -22,7 +22,7 @@ public class BoardService {
     
     public Page<BoardDTO> searchBoards(String type, String keyword, Pageable pageable) { 
         Page<Board> result = boardQueryRepository.searchBoards(type, keyword, pageable);
-        return result.map(board -> new BoardDTO(board.getTitle(), board.getWriter(), board.getContent()));
+        return result.map(board -> new BoardDTO(board.getBno(), board.getTitle(), board.getWriter(), board.getContent()));
     }
     
     public void save(BoardDTO boardDTO) {

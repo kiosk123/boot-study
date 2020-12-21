@@ -44,6 +44,7 @@ public class BoardController {
         model.addAttribute("method", "POST");
         return "/boards/register";
         
+        //model.addAttribute("method", "PUT");
         // return "/boards/modify";
     }
     
