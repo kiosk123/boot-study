@@ -48,6 +48,7 @@ public class Board extends BaseTimeEntity {
     }
     
     public void addReply(BoardReply reply) {
+        reply.setBoard(this);
         replies.add(reply);
     }
 }

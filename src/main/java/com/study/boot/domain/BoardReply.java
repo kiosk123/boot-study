@@ -35,5 +35,11 @@ public class BoardReply extends BaseTimeEntity {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")
+    @Setter
     private Board board;
+    
+    public BoardReply(String replyText, String replyer) {
+        this.replyText = replyText;
+        this.replyer = replyer;
+    }
 }
