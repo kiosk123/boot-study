@@ -17,10 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.study.boot.dto.BoardReplyDTO;
 import com.study.boot.service.BoardService;
 
+import lombok.extern.slf4j.Slf4j;
+
+
+
 
 
 @RestController
 @RequestMapping("/replies/*")
+@Slf4j
 public class BoardReplyController {
     
     @Autowired
@@ -36,7 +41,6 @@ public class BoardReplyController {
     public ResponseEntity<List<BoardReplyDTO>> addReply(@PathVariable("bno")Long bno,
                                          @RequestBody BoardReplyDTO boardReplyDTO) {
         boardService.saveReply(bno, boardReplyDTO);
-        
         List<BoardReplyDTO> replies = boardService.getListByBoard(bno);
         return new ResponseEntity<>(replies, HttpStatus.CREATED);
     }

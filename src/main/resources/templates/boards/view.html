@@ -75,6 +75,35 @@
 		</div>
 		
 	</div>
+	
+	<!-- Modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        <h4 class="modal-title">Modal Header</h4>
+	      </div>
+	      <div class="modal-body">
+				  <label>Reply Text</label>
+				  <input type="text" class="form-control" name='replyText'>
+				
+				  <label>Replyer</label>
+				  <input type="text" class="form-control" name='replyer'>
+				  <input type="hidden" name="rno" value=""/>
+	      </div>
+	      <div class="modal-footer">
+	        <button id='delModalBtn'class="btn btn-danger">Delete</button>
+	        <button id='modalBtn'class="btn btn-info">Save</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	
+	  </div>
+	</div>
+	<!--  end Modal -->
 
 </div>
 <!--  end fragment -->
@@ -84,13 +113,75 @@
 	<script th:inline="javascript" th:src="@{/js/reply.js}"></script>
 	<script th:inline="javascript">
 	$(document).ready((e) => {
-		replyManager.getAll(/*[[${vo.bno}]]*/"", printList);
+		const bno = /*[[${vo.bno}]]*/"";
+		replyManager.getAll(bno, printList);
+		
+		$("#addReplyBtn").on('click', function() {
+			$("#myModal").modal("show");
+			$(".modal-title").text("Add Reply");
+			$("#myModal").find("input").val("");
+			$("#delModalBtn").hide();
+		});
+		
+		$("#replyTable").on("click", "tr", function(e) {
+				
+			const reply = $(this).data('json');
+			$("#myModal").find("input[name='replyText']").val(reply["replyText"]);
+			$("#myModal").find("input[name='replyer']").val(reply["replyer"]);
+			$("#myModal").find("input[name='rno']").val(reply["rno"]);
+			
+			$("#delModalBtn").show();
+			$("#myModal").modal("show");
+			$(".modal-title").text("Modiy/Delete Reply");
+		});
+		  
+		$("#delModalBtn").on("click", function() {
+			const rno = $("#myModal").find("input[name='rno']").val();
+			const obj = {bno:bno, rno: rno};
+			
+			replyManager.remove(obj, (list) => {
+				alert("댓글이 삭제되었습니다. ")
+				afterAll(list);
+			});
+			
+		});
+		
+		$("#modalBtn").click(function(){
+			  
+			const replyText = $("#myModal").find("input[name='replyText']").val();
+			const replyer = $("#myModal").find("input[name='replyer']").val();
+			const rno = $("#myModal").find("input[name='rno']").val();
+			  		  
+			if (!rno || rno.trim().length === 0) {
+				  					
+				const obj = {replyText:replyText, replyer: replyer, bno: bno};
+				console.log(bno);
+				//console.log(obj);
+				
+				replyManager.add(obj, function(list){
+					alert("새로운 댓글이 추가되었습니다. ")
+					afterAll(list);
+				});				
+			  
+			}
+			else {
+				const obj = {replyText:replyText, bno:bno, rno:rno};
+				replyManager.update(obj, function(list){
+						alert("댓글이 수정되었습니다. ")
+						afterAll(list);
+				});
+			}
+		});
+		
+		function afterAll(list){
+			printList(list);
+			$("#myModal").modal("hide");
+		}
 		
 		function printList(list) {
-			console.log(list);
 			let str = "";
 			list.forEach((reply)=>{
-				str += "<tr>" + 
+				str += "<tr data-json=" + JSON.stringify(reply) + ">" + 
 				"<td>" + reply.rno + "</td>" +
 				"<td>" + reply.replyText + "</td>" +
 				"<td>" + reply.replyer + "</td>" +
