@@ -40,7 +40,7 @@ class TestDataSetter {
     void insertData() {
         IntStream.range(0, 200).forEach(n -> {
             Board board = new Board("제목 : " + n, "user0" + (n % 10), "게시물 내용 ... " + n + " 내용 채우기");
-            IntStream.range(0, 10).forEach(k -> {
+            IntStream.range(0, 3).forEach(k -> {
                 BoardReply boardReply = new BoardReply("댓글" + k, "user" + k);
                 board.addReply(boardReply); 
             });

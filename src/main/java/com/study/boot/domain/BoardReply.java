@@ -40,6 +40,6 @@ public class BoardReply extends BaseTimeEntity {
     
     public BoardReply(String replyText, String replyer) {
         this.replyText = replyText;
-        this.replyer = replyer;
+        this.replyer = replyer;;
     }
 }

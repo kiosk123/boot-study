@@ -1,5 +1,7 @@
 package com.study.boot.service;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -8,7 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.study.boot.domain.Board;
+import com.study.boot.domain.BoardReply;
 import com.study.boot.dto.BoardDTO;
+import com.study.boot.dto.BoardReplyDTO;
+import com.study.boot.repository.BoardReplyRepository;
 import com.study.boot.repository.BoardRepository;
 import com.study.boot.repository.querydsl.BoardQueryRepository;
 
@@ -20,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
     
     private final BoardRepository boardRepository;
+    private final BoardReplyRepository boardReplyRepository;
     private final BoardQueryRepository boardQueryRepository;
     
     public Page<BoardDTO> searchBoards(String type, String keyword, Pageable pageable) { 
@@ -81,4 +87,54 @@ public class BoardService {
             return 0L;
         }
     }
+    
+    @Transactional
+    public void saveReply(Long bno, BoardReplyDTO boardReplyDTO) {
+        Optional<Board> boardOpt = boardRepository.findById(bno);
+        if (boardOpt.isPresent()) {
+            Board board = boardOpt.get();
+            BoardReply reply = new BoardReply(boardReplyDTO.getReplyText(), boardReplyDTO.getReplyer());
+            board.addReply(reply);
+        }
+        else {
+            //TODO 댓글처리하려는 게시물이 이미 삭제되어 있는 경우 처리
+        }
+    }
+    
+    @Transactional
+    public Long deleteReply(Long rno) {
+        Optional<BoardReply> opt = boardReplyRepository.findById(rno);
+        if (opt.isPresent()) {
+            BoardReply reply = opt.get();
+            boardReplyRepository.delete(reply);
+            return 1L;
+        }
+        else {
+            return 0L;
+        }
+    }
+    
+    @Transactional
+    public Long updateReply(BoardReplyDTO boardReplyDTO) {
+        Optional<BoardReply> opt = boardReplyRepository.findById(boardReplyDTO.getRno());
+        if (opt.isPresent()) {
+            BoardReply reply = opt.get();
+            reply.setReplyText(boardReplyDTO.getReplyText());
+            return 1L;
+        }
+        else {
+            return 0L;
+        }
+    }
+    
+    public List<BoardReplyDTO> getListByBoard(Long bno) {
+        List<BoardReply> replies = boardReplyRepository.getRepliesOfBoard(bno);
+        List<BoardReplyDTO> replyDTOs = new LinkedList<>();
+        replies.forEach(reply -> {
+            BoardReplyDTO replyDTO = new BoardReplyDTO(reply.getRno(),reply.getReplyText(), reply.getReplyer());
+            replyDTOs.add(replyDTO);
+        });
+        return replyDTOs;
+    }
+
 }
