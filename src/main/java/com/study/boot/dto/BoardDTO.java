@@ -18,6 +18,7 @@ public class BoardDTO {
     private String content;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
+    private Long replyCount;
     
     private List<BoardReplyDTO> replies = new ArrayList<>();
 
@@ -29,5 +30,11 @@ public class BoardDTO {
         this.content = content;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+    }
+    
+    public BoardDTO(Long bno, String title, String writer, String content, Long replyCount, LocalDateTime createdDate,
+            LocalDateTime updatedDate) {
+        this(bno, title, writer, content, createdDate, updatedDate);
+        this.replyCount = replyCount;
     }
 }

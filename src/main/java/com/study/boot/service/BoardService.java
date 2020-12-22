@@ -30,12 +30,16 @@ public class BoardService {
     
     public Page<BoardDTO> searchBoards(String type, String keyword, Pageable pageable) { 
         Page<Board> result = boardQueryRepository.searchBoards(type, keyword, pageable);
-        return result.map(board -> new BoardDTO(board.getBno(), 
-                                                board.getTitle(), 
-                                                board.getWriter(), 
-                                                board.getContent(), 
-                                                board.getCreatedDate(), 
-                                                board.getUpdatedDate()));
+        return result.map(board -> { 
+            Long replyCount = boardReplyRepository.getReplyCount(board.getBno());
+            return new BoardDTO(board.getBno(), 
+                                board.getTitle(), 
+                                board.getWriter(), 
+                                board.getContent(), 
+                                replyCount,
+                                board.getCreatedDate(), 
+                                board.getUpdatedDate());
+            });
     }
     
     @Transactional
@@ -140,5 +144,4 @@ public class BoardService {
         });
         return replyDTOs;
     }
-
 }
