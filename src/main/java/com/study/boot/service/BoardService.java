@@ -131,7 +131,11 @@ public class BoardService {
         List<BoardReply> replies = boardReplyRepository.getRepliesOfBoard(bno);
         List<BoardReplyDTO> replyDTOs = new LinkedList<>();
         replies.forEach(reply -> {
-            BoardReplyDTO replyDTO = new BoardReplyDTO(reply.getRno(),reply.getReplyText(), reply.getReplyer());
+            BoardReplyDTO replyDTO = new BoardReplyDTO(reply.getRno(),
+                                                       reply.getReplyText(), 
+                                                       reply.getReplyer(),
+                                                       reply.getCreatedDate(),
+                                                       reply.getUpdatedDate());
             replyDTOs.add(replyDTO);
         });
         return replyDTOs;
