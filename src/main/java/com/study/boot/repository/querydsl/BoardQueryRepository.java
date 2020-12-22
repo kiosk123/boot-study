@@ -1,17 +1,18 @@
 package com.study.boot.repository.querydsl;
 
+import static com.study.boot.domain.QBoard.board;
+import static com.study.boot.domain.QBoardReply.boardReply;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.query.JpaCountQueryCreator;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import com.google.common.base.Objects;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.JPAExpressions;
 import com.study.boot.domain.Board;
 import com.study.boot.repository.querydsl.base.Querydsl4Repository;
-import static com.study.boot.domain.QBoard.*;
 
 @Repository
 public class BoardQueryRepository extends Querydsl4Repository {
@@ -20,9 +21,19 @@ public class BoardQueryRepository extends Querydsl4Repository {
         super(Board.class);
     }
     
-    public Page<Board> searchBoards(String type, String keyword, Pageable pageable) {
+    public Page<Tuple> searchBoards(String type, String keyword, Pageable pageable) {
         return applyPagination(pageable, query -> {
-            return query.selectFrom(board).where(searchCondtion(type, keyword));
+            return query.select(board.bno, 
+                                board.title, 
+                                board.writer, 
+                                board.content,
+                                JPAExpressions.select(boardReply.count())
+                                .from(boardReply)
+                                .where(boardReply.board.bno.eq(board.bno)),
+                                board.createdDate, 
+                                board.updatedDate)
+                        .from(board)
+                        .where(searchCondtion(type, keyword));
         }, countQuery -> {
             return countQuery.selectFrom(board).where(searchCondtion(type, keyword));
         });

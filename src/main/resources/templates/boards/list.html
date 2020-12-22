@@ -23,7 +23,7 @@
 					<tr th:each="board:${result.content}">
 						<td>[[${board.bno}]]</td>
 						<td><a th:href="${board.bno}" class="boardLink">[[${board.title}]]</a>
-							<span class="badge">[[${board.replyCount]]</span></td>
+							<span class="badge">[[${board.replyCount}]]</span></td>
 						<td>[[${board.writer}]]</td>
 						<td>[[${#temporals.format(board.createdDate,'yyyy-MM-dd')}]]</td>
 					</tr>

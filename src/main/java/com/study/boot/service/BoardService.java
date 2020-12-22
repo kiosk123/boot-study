@@ -1,5 +1,6 @@
 package com.study.boot.service;
 
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.querydsl.core.Tuple;
 import com.study.boot.domain.Board;
 import com.study.boot.domain.BoardReply;
 import com.study.boot.dto.BoardDTO;
@@ -29,16 +31,15 @@ public class BoardService {
     private final BoardQueryRepository boardQueryRepository;
     
     public Page<BoardDTO> searchBoards(String type, String keyword, Pageable pageable) { 
-        Page<Board> result = boardQueryRepository.searchBoards(type, keyword, pageable);
-        return result.map(board -> { 
-            Long replyCount = boardReplyRepository.getReplyCount(board.getBno());
-            return new BoardDTO(board.getBno(), 
-                                board.getTitle(), 
-                                board.getWriter(), 
-                                board.getContent(), 
-                                replyCount,
-                                board.getCreatedDate(), 
-                                board.getUpdatedDate());
+        Page<Tuple> result = boardQueryRepository.searchBoards(type, keyword, pageable);
+        return result.map(tuple -> { 
+            return new BoardDTO(tuple.get(0, Long.class), 
+                                tuple.get(1, String.class), 
+                                tuple.get(2, String.class), 
+                                tuple.get(3, String.class), 
+                                tuple.get(4, Long.class),
+                                tuple.get(5, LocalDateTime.class), 
+                                tuple.get(6, LocalDateTime.class));
             });
     }
     

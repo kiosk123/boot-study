@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.study.boot.domain.Board;
+import com.querydsl.core.Tuple;
 import com.study.boot.repository.querydsl.BoardQueryRepository;
 
 @ActiveProfiles("dev")
@@ -25,7 +25,7 @@ class BoardQueryRepositoryTest {
     @Test
     void searchBoards() {
         Pageable pageable = PageRequest.of(1, 20);
-        Page<Board> page = boardQeuryRepository.searchBoards("w", "user", pageable);
+        Page<Tuple> page = boardQeuryRepository.searchBoards("w", "user", pageable);
         
         assertEquals(20, page.getSize());
         assertEquals(1, page.getNumber());

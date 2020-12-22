@@ -13,6 +13,6 @@ public interface BoardReplyRepository  extends JpaRepository<BoardReply, Long>{
     @Query("select r from BoardReply r where r.board.bno = :bno and r.rno > 0 order by r.rno ASC")
     public List<BoardReply> getRepliesOfBoard(@Param("bno")Long bno);
     
-    @Query("select count(r) from BoardReply r where r.board.bno = :bno")
-    public Long getReplyCount(Long bno);
+//    @Query("select count(r) from BoardReply r where r.board.bno = :bno")
+//    public Long getReplyCount(Long bno);
 }
