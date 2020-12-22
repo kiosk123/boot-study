@@ -38,7 +38,7 @@ public class Board extends BaseTimeEntity {
     @Setter
     private String content;
     
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BoardReply> replies = new ArrayList<>();
 
     public Board(String title, String writer, String content) {
